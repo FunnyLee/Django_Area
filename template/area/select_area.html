@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>省市县选择</title>
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script>
+
+        {#获取省#}
+        $(function () {
+            $.get('/get_prov', function (data) {
+                prov_list = data.prov_list
+
+                oProv = $('#prov')
+
+                $.each(prov_list, function (index, item) {
+                    id = item[0]
+                    atitle = item[1]
+                    str = '<option value="' + id + '">' + atitle + '</option>'
+                    oProv.append(str)
+                })
+            })
+
+
+            {#当省发生改变时，获取市地区#}
+            $("#prov").change(function () {
+                oProv = $("#prov")
+                oCity = $("#city")
+                prov_id = oProv.val()
+
+                {#每次省发生改变，市都需要清空#}
+                oCity.empty().append("<option>请选择市</option>")
+
+                $.get('/get_city', {"prov_id": prov_id}, function (data) {
+                    city_list = data.city_list
+
+                    $.each(city_list, function (index, item) {
+                        id = item[0]
+                        atitle = item[1]
+                        str = '<option value="' + id + '">' + atitle + '</option>'
+                        oCity.append(str)
+                    })
+                })
+
+            })
+        })
+
+
+    </script>
+
+</head>
+<body>
+
+<select id="prov">
+    <option>请选择省</option>
+</select>
+
+<select id="city">
+    <option>请选择市</option>
+</select>
+
+<select id="dis">
+    <option>请选择县</option>
+</select>
+
+</body>
+</html>

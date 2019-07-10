@@ -53,5 +53,23 @@ def get_city(request):
         for city in citys:
             tuple = (city.id, city.atitle)
             city_list.append(tuple)
-    print(city_list)
+
     return JsonResponse({'city_list': city_list})
+
+
+# /get_dis
+def get_dis(request):
+    '''获取县级数据'''
+    param_dict = request.GET
+    city_id = param_dict.get('city_id')
+
+    dis_query_set = AreaInfo.objects.filter(aparent_id__exact=city_id)
+
+    if dis_query_set:
+        dis_list = list()
+
+        for dis in dis_query_set:
+            tuple = (dis.id, dis.atitle)
+            dis_list.append(tuple)
+
+    return JsonResponse({'dis_list': dis_list})

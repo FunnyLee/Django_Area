@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^show_select_area$', views.show_select_area, name='show_select_area'),  # 显示省市县选择页面
     url(r'^get_prov$', views.get_prov, name='get_prov'),  # 获取省级地区
     url(r'^get_city$', views.get_city, name='get_city'),  # 获取市级地区
+    url(r'^get_dis$', views.get_dis, name='get_dis'),  # 获取县级地区
 ]

@@ -26,10 +26,14 @@
             $("#prov").change(function () {
                 oProv = $("#prov")
                 oCity = $("#city")
+                oDis = $("#dis")
                 prov_id = oProv.val()
 
                 {#每次省发生改变，市都需要清空#}
                 oCity.empty().append("<option>请选择市</option>")
+
+                {#每次省发生改变，县也需要清空#}
+                oDis.empty().append("<option>请选择县</option>")
 
                 $.get('/get_city', {"prov_id": prov_id}, function (data) {
                     city_list = data.city_list
@@ -43,6 +47,30 @@
                 })
 
             })
+
+
+            {#当市发生改变时，获取县级地区#}
+            $("#city").change(function () {
+                oCity = $("#city")
+                oDis = $("#dis")
+
+                city_id = oCity.val()
+                oDis.empty().append("<option>请选择县</option>")
+
+                $.get('/get_dis', {"city_id": city_id}, function (data) {
+                    dis_list = data.dis_list
+
+                    $.each(dis_list, function (index, item) {
+                        id = item[0]
+                        atitle = item[1]
+                        str = '<option value="' + id + '">' + atitle + '</option>'
+                        oDis.append(str)
+                    })
+                })
+
+            })
+
+
         })
 
 
